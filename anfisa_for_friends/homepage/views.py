@@ -5,8 +5,11 @@ from ice_cream.models import IceCream
 
 def index(request):
     template_name = 'homepage/index.html'
-    # Запрашиваем нужные поля моделей:
-    ice_cream_list = IceCream.objects.values('id', 'title')
+    # Запрашиваем нужные поля моделей + используем фильтр + исключаем
+    # неопубликованные записи:
+    ice_cream_list = IceCream.objects.values(
+        'id', 'title', 'description'
+        ).filter(is_on_main=True, is_published=True)
     # Полученный из БД QuerySet передаём в словарь контекста:
     context = {
         'ice_cream_list': ice_cream_list,
