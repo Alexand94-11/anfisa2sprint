@@ -11,7 +11,9 @@ def index(request):
     # неопубликованные записи + используем Q-объекты + используется сортировка
     # по алфавиту + выводятся первые 3 объекта(через срез):
     ice_cream_list = IceCream.objects.values(
-        'id', 'title', 'description'
+        # Запрашиваем данные модели Category, которая связана
+        # с моделью IceCream:
+        'id', 'title', 'description', 'category__title', 'wrapper__title'
         ).filter(Q(is_published=True) &
                  (Q(is_on_main=True) | Q(title__contains='пломбир'))
                  ).order_by('title')[:3]
